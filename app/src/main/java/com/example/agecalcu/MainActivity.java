@@ -21,8 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    Button btn_fn,btn_fh,btn_cal;
-    TextView lbl_res;
+    Button btn_fn,btn_cal;
+    TextView lbl_res,lbl_fh;
     DatePickerDialog.OnDateSetListener dpd_fnacimiento, dpd_fhoy;
 
     @Override
@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btn_fn = findViewById(R.id.btn_fn);
-        btn_fh = findViewById(R.id.btn_fh);
         btn_cal = findViewById(R.id.btn_cal);
         lbl_res = findViewById(R.id.lbl_res);
+        lbl_fh = findViewById(R.id.lbl_fh);
 
         Calendar calendar = Calendar.getInstance();
         int anio = calendar.get(Calendar.YEAR);
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "dd/MM/yyyy");
         String fecho_hoy = simpleDateFormat.format(Calendar.getInstance().getTime());
-        btn_fh.setText(fecho_hoy);
+        lbl_fh.setText(fecho_hoy);
 
         btn_fn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,33 +66,11 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        btn_fh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        MainActivity.this
-                        ,android.R.style.Theme_Holo_Light_Dialog_MinWidth
-                        ,dpd_fhoy,anio,mes,dia
-                );
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
-        });
-
-        dpd_fhoy = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month + 1;
-                String date = dayOfMonth + "/" + month + "/" + year;
-                btn_fh.setText(date);
-            }
-        };
-
         btn_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String aux_fna = btn_fn.getText().toString();
-                String aux_fho = btn_fh.getText().toString();
+                String aux_fho = lbl_fh.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
                 try {
@@ -111,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         lbl_res.setText(anio + " Años -  " + mes + " Meses - " + dia + " Dias");
                     }else{
                         Toast.makeText(getApplicationContext()
-                                ,"La Fecha de nacimiento debe ser mayor a la fecha de hoy"
+                                ,"La fecha ingresa NO debe ser mayor a la de hoy!"
                                 ,Toast.LENGTH_SHORT).show();
                     }
 
